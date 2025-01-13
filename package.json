@@ -2,7 +2,7 @@
   "name": "@toopixel/twitch-api",
   "version": "0.0.1",
   "scripts": {
-    "build": "tsup",
+    "build": "npx tsup",
     "pack": "del /q *.tgz && npm pack && move *.tgz twitch-api.tgz"
   },
   "type": "commonjs",
