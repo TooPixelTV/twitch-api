@@ -2,17 +2,14 @@ import { AxiosInstance } from 'axios';
 
 import { ITwitchUserApiService } from './interfaces/twitch-user-api-service.interface';
 import { TwitchUser } from './models';
-import { TwitchApiService } from './twitch-api-service';
 
 export default class TwitchUserApiService implements ITwitchUserApiService {
-  private serviceUrl = 'https://api.twitch.tv/helix/users';
+  private serviceUrl = "https://api.twitch.tv/helix/users";
 
   private axios: AxiosInstance;
-  private twitchApiService: TwitchApiService;
 
-  constructor(axios: AxiosInstance, twitchApiService: TwitchApiService) {
+  constructor(axios: AxiosInstance) {
     this.axios = axios;
-    this.twitchApiService = twitchApiService;
   }
 
   public async getCurrentUserInfos(): Promise<TwitchUser | null> {
@@ -38,7 +35,7 @@ export default class TwitchUserApiService implements ITwitchUserApiService {
 
     while (requestData.userIds.length > 0) {
       const usersList: Array<string> = requestData.userIds.splice(0, 100);
-      const usersUrl = usersList.map((u) => `id=${u}`).join('&');
+      const usersUrl = usersList.map((u) => `id=${u}`).join("&");
 
       const callResult = await this.axios.get(this.serviceUrl + `?${usersUrl}`);
 

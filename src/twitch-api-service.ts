@@ -1,9 +1,4 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosRequestHeaders,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import axiosRetry from 'axios-retry';
 import url from 'url';
 
@@ -18,7 +13,7 @@ import TwitchRewardRedemptionApiService from './twitch-reward-redemption-api-ser
 import TwitchUserApiService from './twitch-user-api-service';
 
 export class TwitchApiService implements ITwitchApiService {
-  private readonly twitchTokenUrl = 'https://id.twitch.tv/oauth2/token';
+  private readonly twitchTokenUrl = "https://id.twitch.tv/oauth2/token";
 
   private axios: AxiosInstance;
 
@@ -91,7 +86,7 @@ export class TwitchApiService implements ITwitchApiService {
       this.axios,
       this
     );
-    this.users = new TwitchUserApiService(this.axios, this);
+    this.users = new TwitchUserApiService(this.axios);
     this.channel = new TwitchChannelApiService(this.axios, this);
     this.eventsub = new TwitchEventsubApiService(this.axios);
     this.chat = new TwitchChatApiService(this.axios);
@@ -100,9 +95,9 @@ export class TwitchApiService implements ITwitchApiService {
   public static async getTokenScopes(
     accessToken: string
   ): Promise<Array<string>> {
-    const result = await axios.get('https://id.twitch.tv/oauth2/validate', {
+    const result = await axios.get("https://id.twitch.tv/oauth2/validate", {
       headers: {
-        Authorization: 'Bearer ' + accessToken,
+        Authorization: "Bearer " + accessToken,
       },
     });
 
@@ -116,7 +111,7 @@ export class TwitchApiService implements ITwitchApiService {
       const params = new url.URLSearchParams({
         client_id: this.twitchClientId,
         client_secret: this.twitchSecret,
-        grant_type: 'refresh_token',
+        grant_type: "refresh_token",
         refresh_token: tokens.refreshToken,
       });
       const result: AccessTokenBean = (
@@ -144,7 +139,7 @@ export class TwitchApiService implements ITwitchApiService {
     return {
       headers: {
         Authorization: `Bearer ${tokens.accessToken}`,
-        'Client-Id': this.twitchClientId,
+        "Client-Id": this.twitchClientId,
       },
     };
   }

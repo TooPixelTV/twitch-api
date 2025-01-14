@@ -1,16 +1,12 @@
-import axios, {
-  AxiosError,
-  AxiosInstance,
-  AxiosRequestConfig,
-  AxiosRequestHeaders,
-} from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
 import axiosRetry from 'axios-retry';
 
 import TwitchConduitsApiService from './twitch-conduits-api-service';
 import TwitchEventsubApiService from './twitch-eventsub-service';
+import TwitchUserApiService from './twitch-user-api-service';
 
 export class TwitchAppApiService {
-  private readonly twitchTokenUrl = 'https://id.twitch.tv/oauth2/token';
+  private readonly twitchTokenUrl = "https://id.twitch.tv/oauth2/token";
 
   private axios: AxiosInstance;
 
@@ -22,6 +18,7 @@ export class TwitchAppApiService {
   // Services
   public conduits: TwitchConduitsApiService;
   public eventsub: TwitchEventsubApiService;
+  public users: TwitchUserApiService;
 
   constructor(twitchClientId: string, twitchSecret: string) {
     this.twitchClientId = twitchClientId;
@@ -63,6 +60,7 @@ export class TwitchAppApiService {
     // Init services
     this.conduits = new TwitchConduitsApiService(this.axios);
     this.eventsub = new TwitchEventsubApiService(this.axios);
+    this.users = new TwitchUserApiService(this.axios);
   }
 
   public async init() {
@@ -73,7 +71,7 @@ export class TwitchAppApiService {
     const result = await axios.post(this.twitchTokenUrl, {
       client_id: this.twitchClientId,
       client_secret: this.twitchSecret,
-      grant_type: 'client_credentials',
+      grant_type: "client_credentials",
     });
 
     this.accessToken = result.data.access_token;
@@ -86,7 +84,7 @@ export class TwitchAppApiService {
     return {
       headers: {
         Authorization: `Bearer ${this.accessToken}`,
-        'Client-Id': this.twitchClientId,
+        "Client-Id": this.twitchClientId,
       },
     };
   }
