@@ -1,9 +1,14 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
-import axiosRetry from 'axios-retry';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+} from "axios";
+import axiosRetry from "axios-retry";
 
-import TwitchConduitsApiService from './twitch-conduits-api-service';
-import TwitchEventsubApiService from './twitch-eventsub-service';
-import TwitchUserApiService from './twitch-user-api-service';
+import TwitchConduitsApiService from "./twitch-conduits-api-service";
+import TwitchEventsubApiService from "./twitch-eventsub-service";
+import TwitchUserApiService from "./twitch-user-api-service";
 
 export class TwitchAppApiService {
   private readonly twitchTokenUrl = "https://id.twitch.tv/oauth2/token";
@@ -43,6 +48,8 @@ export class TwitchAppApiService {
           return true;
         }
 
+        console.log(e);
+
         return false;
       },
       onRetry: async (
@@ -63,18 +70,27 @@ export class TwitchAppApiService {
     this.users = new TwitchUserApiService(this.axios);
   }
 
-  public async init() {
+  public async init(): Promise<boolean> {
     await this.getNewAppAccessToken();
+
+    return this.accessToken !== undefined;
   }
 
   public async getNewAppAccessToken() {
-    const result = await axios.post(this.twitchTokenUrl, {
-      client_id: this.twitchClientId,
-      client_secret: this.twitchSecret,
-      grant_type: "client_credentials",
-    });
+    this.accessToken = undefined;
 
-    this.accessToken = result.data.access_token;
+    try {
+      const result = await axios.post(this.twitchTokenUrl, {
+        client_id: this.twitchClientId,
+        client_secret: this.twitchSecret,
+        grant_type: "client_credentials",
+      });
+
+      this.accessToken = result.data.access_token;
+    } catch (e) {
+      console.info("[getNewAppAccessToken] Twitch Error");
+      console.info(e);
+    }
   }
 
   public async getRequestConfig(): Promise<
