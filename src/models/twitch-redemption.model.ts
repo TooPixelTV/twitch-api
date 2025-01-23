@@ -1,7 +1,7 @@
 export enum TwitchRedemptionStatus {
-  CANCELED = 'CANCELED',
-  FULFILLED = 'FULFILLED',
-  UNFULFILLED = 'UNFULFILLED',
+  CANCELED = "CANCELED",
+  FULFILLED = "FULFILLED",
+  UNFULFILLED = "UNFULFILLED",
 }
 
 export class TwitchRedemption {
