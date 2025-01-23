@@ -13,13 +13,7 @@ export class TwitchChatMessageEventSub {
     public source_message_id: string | null,
     public message: {
       text: string;
-      fragments: Array<{
-        type: string;
-        text: string;
-        cheermote: null;
-        emote: null;
-        mention: null;
-      }>;
+      fragments: Array<TwitchChatMessageFragment>;
     },
     public color: string,
     public badges: Array<{
@@ -33,5 +27,23 @@ export class TwitchChatMessageEventSub {
     public reply: null,
     public channel_points_custom_reward_id: null,
     public channel_points_animation_id: null
+  ) {}
+}
+
+export class TwitchChatMessageFragment {
+  constructor(
+    public type: string,
+    public text: string,
+    public cheermote: null,
+    public emote: null,
+    public mention: TwitchMention | null
+  ) {}
+}
+
+export class TwitchMention {
+  constructor(
+    public user_id: string,
+    public user_login: string,
+    public user_name: string
   ) {}
 }
