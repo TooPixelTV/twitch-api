@@ -4,7 +4,7 @@ export {
   TwitchRedemptionEventSub,
   TwitchRedemptionStatus,
 } from "./twitch-redemption.model";
-export { TwitchUser } from "./twitch-user.model";
+export { TwitchUser, TwitchSimpleUser } from "./twitch-user.model";
 export * from "./access-token-bean";
 export * from "./twitch-conduit.model";
 export * from "./twitch-conduit-shard.model";
@@ -16,3 +16,4 @@ export * from "./twitch-chatter.model";
 export * from "./update-token-bean.model";
 export * from "./sent-message-bean.model";
 export * from "./twitch-chat-message-eventsub.model";
+export * from "./moderators-result-bean.model";

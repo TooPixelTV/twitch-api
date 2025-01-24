@@ -1,3 +1,5 @@
+import { TwitchSimpleUser } from "./twitch-user.model";
+
 export class TwitchChatMessageEventSub {
   constructor(
     public broadcaster_user_name: string,
@@ -36,14 +38,6 @@ export class TwitchChatMessageFragment {
     public text: string,
     public cheermote: null,
     public emote: null,
-    public mention: TwitchMention | null
-  ) {}
-}
-
-export class TwitchMention {
-  constructor(
-    public user_id: string,
-    public user_login: string,
-    public user_name: string
+    public mention: TwitchSimpleUser | null
   ) {}
 }

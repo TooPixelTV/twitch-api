@@ -1,9 +1,10 @@
-import { ITwitchChannelApiService } from './twitch-channel-api-service.interface';
-import { ITwitchChatApiService } from './twitch-chat-api-service.interface';
-import { ITwitchEventsubApiService } from './twitch-eventsub-service.interface';
-import { ITwitchRewardApiService } from './twitch-reward-api-service.interface';
-import { ITwitchRewardRedemptionApiService } from './twitch-reward-redemption-api-service.interface';
-import { ITwitchUserApiService } from './twitch-user-api-service.interface';
+import { ITwitchChannelApiService } from "./twitch-channel-api-service.interface";
+import { ITwitchChatApiService } from "./twitch-chat-api-service.interface";
+import { ITwitchEventsubApiService } from "./twitch-eventsub-service.interface";
+import { ITwitchModerationApiService } from "./twitch-moderation-api-service.interface";
+import { ITwitchRewardApiService } from "./twitch-reward-api-service.interface";
+import { ITwitchRewardRedemptionApiService } from "./twitch-reward-redemption-api-service.interface";
+import { ITwitchUserApiService } from "./twitch-user-api-service.interface";
 
 export interface ITwitchApiService {
   // Services
@@ -13,4 +14,5 @@ export interface ITwitchApiService {
   channel: ITwitchChannelApiService;
   eventsub: ITwitchEventsubApiService;
   chat: ITwitchChatApiService;
+  moderation: ITwitchModerationApiService;
 }

@@ -12,3 +12,11 @@ export class TwitchUser {
     public created_at: string
   ) {}
 }
+
+export class TwitchSimpleUser {
+  constructor(
+    public user_id: string,
+    public user_login: string,
+    public user_name: string
+  ) {}
+}

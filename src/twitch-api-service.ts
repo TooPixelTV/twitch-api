@@ -1,16 +1,22 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosRequestHeaders } from 'axios';
-import axiosRetry from 'axios-retry';
-import url from 'url';
+import axios, {
+  AxiosError,
+  AxiosInstance,
+  AxiosRequestConfig,
+  AxiosRequestHeaders,
+} from "axios";
+import axiosRetry from "axios-retry";
+import url from "url";
 
-import { ITwitchApiService } from './interfaces/twitch-api-service.interface';
-import { AccessTokenBean } from './models';
-import { UpdateTokenBean } from './models/update-token-bean.model';
-import TwitchChannelApiService from './twitch-channel-api-service';
-import TwitchChatApiService from './twitch-chat-api-service';
-import TwitchEventsubApiService from './twitch-eventsub-service';
-import TwitchRewardApiService from './twitch-reward-api-service';
-import TwitchRewardRedemptionApiService from './twitch-reward-redemption-api-service';
-import TwitchUserApiService from './twitch-user-api-service';
+import { ITwitchApiService } from "./interfaces/twitch-api-service.interface";
+import { AccessTokenBean } from "./models";
+import { UpdateTokenBean } from "./models/update-token-bean.model";
+import TwitchChannelApiService from "./twitch-channel-api-service";
+import TwitchChatApiService from "./twitch-chat-api-service";
+import TwitchEventsubApiService from "./twitch-eventsub-service";
+import TwitchModerationApiService from "./twitch-moderation-api-service";
+import TwitchRewardApiService from "./twitch-reward-api-service";
+import TwitchRewardRedemptionApiService from "./twitch-reward-redemption-api-service";
+import TwitchUserApiService from "./twitch-user-api-service";
 
 export class TwitchApiService implements ITwitchApiService {
   private readonly twitchTokenUrl = "https://id.twitch.tv/oauth2/token";
@@ -33,6 +39,7 @@ export class TwitchApiService implements ITwitchApiService {
   public channel: TwitchChannelApiService;
   public eventsub: TwitchEventsubApiService;
   public chat: TwitchChatApiService;
+  public moderation: TwitchModerationApiService;
 
   constructor(
     twitchClientId: string,
@@ -90,6 +97,7 @@ export class TwitchApiService implements ITwitchApiService {
     this.channel = new TwitchChannelApiService(this.axios, this);
     this.eventsub = new TwitchEventsubApiService(this.axios);
     this.chat = new TwitchChatApiService(this.axios);
+    this.moderation = new TwitchModerationApiService(this.axios);
   }
 
   public static async getTokenScopes(
