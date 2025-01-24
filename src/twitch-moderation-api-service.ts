@@ -14,7 +14,7 @@ export default class TwitchModerationApiService
     this.axios = axios;
   }
 
-  public async getModeratorsAll(requestData: {
+  public async getAllModerators(requestData: {
     broadcaster_id: string;
     user_id?: string;
     first?: string;

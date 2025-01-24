@@ -1,7 +1,7 @@
 import { ModeratorsResultBean, TwitchSimpleUser } from "../models";
 
 export interface ITwitchModerationApiService {
-  getModeratorsAll(requestData: {
+  getAllModerators(requestData: {
     broadcaster_id: string;
     user_id?: string;
     first?: string;
