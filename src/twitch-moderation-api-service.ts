@@ -46,6 +46,8 @@ export default class TwitchModerationApiService
   }): Promise<ModeratorsResultBean | null> {
     const params: Array<string> = [];
 
+    params.push(`broadcaster_id=${filter.broadcaster_id}`);
+
     if (filter.first) {
       params.push(`first=${filter.first}`);
     }
