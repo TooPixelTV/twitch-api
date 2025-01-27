@@ -11,4 +11,9 @@ export interface ITwitchChatApiService {
     message: string;
     reply_parent_message_id?: string;
   }): Promise<SentMessageBean | null>;
+  deleteMessage(requestData: {
+    broadcaster_id: string;
+    moderator_id: string;
+    message_id?: string;
+  }): Promise<boolean>;
 }

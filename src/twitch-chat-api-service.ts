@@ -1,12 +1,13 @@
-import { AxiosInstance, AxiosResponse } from 'axios';
+import { AxiosInstance, AxiosResponse } from "axios";
 
-import { ITwitchChatApiService } from './interfaces/twitch-chat-api-service.interface';
-import { SentMessageBean } from './models';
-import { TwitchChatter } from './models/twitch-chatter.model';
+import { ITwitchChatApiService } from "./interfaces/twitch-chat-api-service.interface";
+import { SentMessageBean } from "./models";
+import { TwitchChatter } from "./models/twitch-chatter.model";
 
 export default class TwitchChatApiService implements ITwitchChatApiService {
   private chattersUrl = "https://api.twitch.tv/helix/chat/chatters";
   private messagesUrl = "https://api.twitch.tv/helix/chat/messages";
+  private chatModerationUrl = "https://api.twitch.tv/helix/moderation/chat";
 
   private axios: AxiosInstance;
 
@@ -58,5 +59,25 @@ export default class TwitchChatApiService implements ITwitchChatApiService {
     }
 
     return null;
+  }
+
+  async deleteMessage(requestData: {
+    broadcaster_id: string;
+    moderator_id: string;
+    message_id?: string;
+  }): Promise<boolean> {
+    const response = await this.axios.delete(
+      `${this.chatModerationUrl}?broadcaster_id=${
+        requestData.broadcaster_id
+      }&moderator_id=${requestData.moderator_id}${
+        requestData.message_id ? "&message_id=" + requestData.message_id : ""
+      }`
+    );
+
+    if (response) {
+      return true;
+    }
+
+    return false;
   }
 }
