@@ -124,14 +124,19 @@ export class TwitchApiService implements ITwitchApiService {
         grant_type: "refresh_token",
         refresh_token: tokens.refreshToken,
       });
-      const result: AccessTokenBean = (
-        await this.axios.post(this.twitchTokenUrl, params.toString())
-      ).data;
 
-      if (this.refreshTokenCallback !== null) {
-        await this.refreshTokenCallback(result);
+      try {
+        const result: AccessTokenBean = (
+          await this.axios.post(this.twitchTokenUrl, params.toString())
+        ).data;
+
+        if (this.refreshTokenCallback !== null) {
+          await this.refreshTokenCallback(result);
+        }
+        return result;
+      } catch (e) {
+        return null;
       }
-      return result;
     }
 
     return null;
