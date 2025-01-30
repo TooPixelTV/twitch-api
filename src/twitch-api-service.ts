@@ -29,7 +29,7 @@ export class TwitchApiService implements ITwitchApiService {
   public getTokens: () => Promise<UpdateTokenBean>;
 
   private refreshTokenCallback:
-    | ((newToken: AccessTokenBean) => Promise<void>)
+    | ((newToken: AccessTokenBean | null) => Promise<void>)
     | null = null;
 
   // Services
@@ -46,7 +46,7 @@ export class TwitchApiService implements ITwitchApiService {
     twitchSecret: string,
     getTokens: () => Promise<UpdateTokenBean>,
     refreshTokenCallback:
-      | ((newToken: AccessTokenBean) => Promise<void>)
+      | ((newToken: AccessTokenBean | null) => Promise<void>)
       | null = null
   ) {
     this.twitchClientId = twitchClientId;
@@ -135,6 +135,9 @@ export class TwitchApiService implements ITwitchApiService {
         }
         return result;
       } catch (e) {
+        if (this.refreshTokenCallback !== null) {
+          await this.refreshTokenCallback(null);
+        }
         return null;
       }
     }
