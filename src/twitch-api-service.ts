@@ -73,6 +73,8 @@ export class TwitchApiService implements ITwitchApiService {
           return true;
         }
 
+        console.log(e);
+
         return false;
       },
       onRetry: async (
