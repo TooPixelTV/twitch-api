@@ -7,4 +7,8 @@ export interface TwitchUserSubcription {
   gifter_login?: string;
   gifter_name?: string;
   tier: number;
+  plan_name: string;
+  user_id: string;
+  user_name: string;
+  user_login: string;
 }

@@ -42,17 +42,31 @@ export default class TwitchSubscribersApiService
     if (params.length > 0) {
       paramsUrl += `?${params.join("&")}`;
     }
-    const result = await this.axios
-      .get(`${this.serviceUrl}${paramsUrl}`)
-      .catch((e) => {
-        console.error("Error at : getAllSubscribers");
-        console.error(e);
-      });
 
-    if (result && result.data) {
-      return result.data;
+    const subscribers: Array<TwitchUserSubcription> = [];
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let result: any | null = null;
+      do {
+        let currentCursor = null;
+        if (result && result.data.pagination && result.data.pagination.cursor) {
+          currentCursor = result.data.pagination.cursor;
+        }
+
+        result = await this.axios.get(`${this.serviceUrl}${paramsUrl}`);
+
+        subscribers.push(...result.data.data);
+      } while (
+        result &&
+        result.data.pagination &&
+        result.data.pagination.cursor
+      );
+    } catch (e) {
+      console.error("Error at : getAllSubscribers");
+      console.error(e);
     }
 
-    return null;
+    return subscribers;
   }
 }
