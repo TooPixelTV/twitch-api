@@ -63,8 +63,8 @@ export default class TwitchSubscribersApiService
         result.data.pagination.cursor
       );
     } catch (e) {
-      console.error("Error at : getAllSubscribers");
-      console.error(e);
+      console.log("Error at : getAllSubscribers");
+      console.log(e);
     }
 
     return subscribers;
