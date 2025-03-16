@@ -4,6 +4,7 @@ import { ITwitchEventsubApiService } from "./twitch-eventsub-service.interface";
 import { ITwitchModerationApiService } from "./twitch-moderation-api-service.interface";
 import { ITwitchRewardApiService } from "./twitch-reward-api-service.interface";
 import { ITwitchRewardRedemptionApiService } from "./twitch-reward-redemption-api-service.interface";
+import { ITwitchSubscribersApiService } from "./twitch-subscribers-api-service.interface";
 import { ITwitchUserApiService } from "./twitch-user-api-service.interface";
 
 export interface ITwitchApiService {
@@ -15,4 +16,5 @@ export interface ITwitchApiService {
   eventsub: ITwitchEventsubApiService;
   chat: ITwitchChatApiService;
   moderation: ITwitchModerationApiService;
+  subcribers: ITwitchSubscribersApiService;
 }

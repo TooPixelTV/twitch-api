@@ -17,3 +17,4 @@ export * from "./update-token-bean.model";
 export * from "./sent-message-bean.model";
 export * from "./twitch-chat-message-eventsub.model";
 export * from "./moderators-result-bean.model";
+export * from "./twitch-user-subscription.model";

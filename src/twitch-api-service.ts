@@ -16,6 +16,7 @@ import TwitchEventsubApiService from "./twitch-eventsub-service";
 import TwitchModerationApiService from "./twitch-moderation-api-service";
 import TwitchRewardApiService from "./twitch-reward-api-service";
 import TwitchRewardRedemptionApiService from "./twitch-reward-redemption-api-service";
+import TwitchSubscribersApiService from "./twitch-subscribers-api-service";
 import TwitchUserApiService from "./twitch-user-api-service";
 
 export class TwitchApiService implements ITwitchApiService {
@@ -40,6 +41,7 @@ export class TwitchApiService implements ITwitchApiService {
   public eventsub: TwitchEventsubApiService;
   public chat: TwitchChatApiService;
   public moderation: TwitchModerationApiService;
+  public subcribers: TwitchSubscribersApiService;
 
   constructor(
     twitchClientId: string,
@@ -100,6 +102,7 @@ export class TwitchApiService implements ITwitchApiService {
     this.eventsub = new TwitchEventsubApiService(this.axios);
     this.chat = new TwitchChatApiService(this.axios);
     this.moderation = new TwitchModerationApiService(this.axios);
+    this.subcribers = new TwitchSubscribersApiService(this.axios);
   }
 
   public static async getTokenScopes(
