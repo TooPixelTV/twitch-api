@@ -17,8 +17,6 @@ export default class TwitchSubscribersApiService
   public async getSubscribers(filter: {
     broadcaster_id: string;
     user_ids?: Array<string>;
-    first?: string;
-    after?: string;
   }): Promise<Array<TwitchUserSubcription> | null> {
     const subscribers: Array<TwitchUserSubcription> = [];
 
@@ -26,13 +24,14 @@ export default class TwitchSubscribersApiService
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let result: any | null = null;
       do {
+        let currentCursor = null;
+        if (result && result.data.pagination && result.data.pagination.cursor) {
+          currentCursor = result.data.pagination.cursor;
+        }
+
         const params: Array<string> = [];
 
         params.push(`broadcaster_id=${filter.broadcaster_id}`);
-
-        if (filter.first) {
-          params.push(`first=${filter.first}`);
-        }
 
         if (filter.user_ids) {
           filter.user_ids.forEach((user_id) => {
@@ -40,18 +39,13 @@ export default class TwitchSubscribersApiService
           });
         }
 
-        if (filter.after) {
-          params.push(`after=${filter.after}`);
+        if (currentCursor) {
+          params.push(`after=${currentCursor}`);
         }
 
         let paramsUrl = "";
         if (params.length > 0) {
           paramsUrl += `?${params.join("&")}`;
-        }
-
-        let currentCursor = null;
-        if (result && result.data.pagination && result.data.pagination.cursor) {
-          currentCursor = result.data.pagination.cursor;
         }
 
         result = await this.axios.get(`${this.serviceUrl}${paramsUrl}`);
