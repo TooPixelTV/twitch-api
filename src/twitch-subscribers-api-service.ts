@@ -20,35 +20,35 @@ export default class TwitchSubscribersApiService
     first?: string;
     after?: string;
   }): Promise<Array<TwitchUserSubcription> | null> {
-    const params: Array<string> = [];
-
-    params.push(`broadcaster_id=${filter.broadcaster_id}`);
-
-    if (filter.first) {
-      params.push(`first=${filter.first}`);
-    }
-
-    if (filter.user_ids) {
-      filter.user_ids.forEach((user_id) => {
-        params.push(`user_id=${user_id}`);
-      });
-    }
-
-    if (filter.after) {
-      params.push(`after=${filter.after}`);
-    }
-
-    let paramsUrl = "";
-    if (params.length > 0) {
-      paramsUrl += `?${params.join("&")}`;
-    }
-
     const subscribers: Array<TwitchUserSubcription> = [];
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let result: any | null = null;
       do {
+        const params: Array<string> = [];
+
+        params.push(`broadcaster_id=${filter.broadcaster_id}`);
+
+        if (filter.first) {
+          params.push(`first=${filter.first}`);
+        }
+
+        if (filter.user_ids) {
+          filter.user_ids.forEach((user_id) => {
+            params.push(`user_id=${user_id}`);
+          });
+        }
+
+        if (filter.after) {
+          params.push(`after=${filter.after}`);
+        }
+
+        let paramsUrl = "";
+        if (params.length > 0) {
+          paramsUrl += `?${params.join("&")}`;
+        }
+
         let currentCursor = null;
         if (result && result.data.pagination && result.data.pagination.cursor) {
           currentCursor = result.data.pagination.cursor;
