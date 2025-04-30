@@ -11,6 +11,12 @@ export interface ITwitchChatApiService {
     message: string;
     reply_parent_message_id?: string;
   }): Promise<SentMessageBean | null>;
+  sendAnnouncement(requestData: {
+    broadcaster_id: string;
+    moderator_id: string;
+    message: string;
+    color?: "blue" | "green" | "orange" | "purple" | "primary";
+  }): Promise<boolean>;
   deleteMessage(requestData: {
     broadcaster_id: string;
     moderator_id: string;

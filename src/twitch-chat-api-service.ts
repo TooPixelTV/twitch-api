@@ -7,6 +7,7 @@ import { TwitchChatter } from "./models/twitch-chatter.model";
 export default class TwitchChatApiService implements ITwitchChatApiService {
   private chattersUrl = "https://api.twitch.tv/helix/chat/chatters";
   private messagesUrl = "https://api.twitch.tv/helix/chat/messages";
+  private announcementUrl = "https://api.twitch.tv/helix/chat/announcements";
   private chatModerationUrl = "https://api.twitch.tv/helix/moderation/chat";
 
   private axios: AxiosInstance;
@@ -72,6 +73,28 @@ export default class TwitchChatApiService implements ITwitchChatApiService {
       }&moderator_id=${requestData.moderator_id}${
         requestData.message_id ? "&message_id=" + requestData.message_id : ""
       }`
+    );
+
+    if (response) {
+      return true;
+    }
+
+    return false;
+  }
+
+  async sendAnnouncement(requestData: {
+    broadcaster_id: string;
+    moderator_id: string;
+    message: string;
+    color?: "blue" | "green" | "orange" | "purple" | "primary";
+  }): Promise<boolean> {
+    if (requestData.color === undefined) {
+      requestData.color = "primary";
+    }
+
+    const response = await this.axios.post(
+      `${this.announcementUrl}?broadcaster_id=${requestData.broadcaster_id}&moderator_id=${requestData.moderator_id}`,
+      { message: requestData.message, color: requestData.color }
     );
 
     if (response) {
