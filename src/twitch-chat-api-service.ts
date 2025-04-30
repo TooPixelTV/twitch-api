@@ -92,13 +92,18 @@ export default class TwitchChatApiService implements ITwitchChatApiService {
       requestData.color = "primary";
     }
 
-    const response = await this.axios.post(
-      `${this.announcementUrl}?broadcaster_id=${requestData.broadcaster_id}&moderator_id=${requestData.moderator_id}`,
-      { message: requestData.message, color: requestData.color }
-    );
+    try {
+      const response = await this.axios.post(
+        `${this.announcementUrl}?broadcaster_id=${requestData.broadcaster_id}&moderator_id=${requestData.moderator_id}`,
+        { message: requestData.message, color: requestData.color }
+      );
 
-    if (response) {
-      return true;
+      if (response) {
+        return true;
+      }
+    } catch (e) {
+      console.log("Error at : sendAnnouncement");
+      console.log(e);
     }
 
     return false;
