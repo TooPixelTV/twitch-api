@@ -23,7 +23,7 @@ export default class TwitchBanApiService implements ITwitchBanApiService {
   }): Promise<TwitchBanResult | null> {
     const response = await this.axios.post(
       `${this.banUrl}?broadcaster_id=${requestData.broadcaster_id}&moderator_id=${requestData.moderator_id}`,
-      requestData.data
+      { data: requestData.data }
     );
 
     if (response) {
