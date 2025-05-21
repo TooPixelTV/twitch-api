@@ -10,6 +10,7 @@ import url from "url";
 import { ITwitchApiService } from "./interfaces/twitch-api-service.interface";
 import { AccessTokenBean } from "./models";
 import { UpdateTokenBean } from "./models/update-token-bean.model";
+import TwitchBanApiService from "./twitch-ban-api-service";
 import TwitchChannelApiService from "./twitch-channel-api-service";
 import TwitchChatApiService from "./twitch-chat-api-service";
 import TwitchEventsubApiService from "./twitch-eventsub-service";
@@ -42,6 +43,7 @@ export class TwitchApiService implements ITwitchApiService {
   public chat: TwitchChatApiService;
   public moderation: TwitchModerationApiService;
   public subcribers: TwitchSubscribersApiService;
+  public ban: TwitchBanApiService;
 
   constructor(
     twitchClientId: string,
@@ -103,6 +105,7 @@ export class TwitchApiService implements ITwitchApiService {
     this.chat = new TwitchChatApiService(this.axios);
     this.moderation = new TwitchModerationApiService(this.axios);
     this.subcribers = new TwitchSubscribersApiService(this.axios);
+    this.ban = new TwitchBanApiService(this.axios);
   }
 
   public static async getTokenScopes(

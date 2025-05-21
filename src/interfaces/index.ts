@@ -7,3 +7,4 @@ export * from "./twitch-reward-api-service.interface";
 export * from "./twitch-reward-redemption-api-service.interface";
 export * from "./twitch-user-api-service.interface";
 export * from "./twitch-subscribers-api-service.interface";
+export * from "./twitch-ban-api-service.interface";
