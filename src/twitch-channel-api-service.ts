@@ -1,14 +1,14 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance } from "axios";
 
-import { ITwitchChannelApiService } from './interfaces/twitch-channel-api-service.interface';
-import { FollowerBean } from './models/follower-bean.model';
-import { TwitchApiService } from './twitch-api-service';
+import { ITwitchChannelApiService } from "./interfaces/twitch-channel-api-service.interface";
+import { FollowerBean } from "./models/follower-bean.model";
+import { TwitchApiService } from "./twitch-api-service";
 
 export default class TwitchChannelApiService
   implements ITwitchChannelApiService
 {
-  private streamsUrl = 'https://api.twitch.tv/helix/streams';
-  private followersUrl = 'https://api.twitch.tv/helix/channels/followers';
+  private streamsUrl = "https://api.twitch.tv/helix/streams";
+  private followersUrl = "https://api.twitch.tv/helix/channels/followers";
 
   private axios: AxiosInstance;
   private twitchApiService: TwitchApiService;
@@ -42,7 +42,7 @@ export default class TwitchChannelApiService
 
         result = await this.axios.get(
           `${this.followersUrl}?broadcaster_id=${broadcasterUser.id}${
-            currentCursor !== null ? '&after=' + currentCursor : ''
+            currentCursor !== null ? "&after=" + currentCursor : ""
           }`
         );
 

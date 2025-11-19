@@ -1,4 +1,4 @@
-import { TwitchUser } from '../models';
+import { FollowedBroadcaster, TwitchUser } from "../models";
 
 export interface ITwitchUserApiService {
   getCurrentUserInfos(): Promise<TwitchUser | null>;
@@ -6,4 +6,5 @@ export interface ITwitchUserApiService {
   getMultipleUserInfos(requestData: {
     userIds: Array<string>;
   }): Promise<Array<TwitchUser>>;
+  getAllFollowedChannels(): Promise<Array<FollowedBroadcaster>>;
 }

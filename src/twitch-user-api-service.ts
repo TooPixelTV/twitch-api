@@ -1,10 +1,11 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance } from "axios";
 
-import { ITwitchUserApiService } from './interfaces/twitch-user-api-service.interface';
-import { TwitchUser } from './models';
+import { ITwitchUserApiService } from "./interfaces/twitch-user-api-service.interface";
+import { FollowedBroadcaster, TwitchUser } from "./models";
 
 export default class TwitchUserApiService implements ITwitchUserApiService {
   private serviceUrl = "https://api.twitch.tv/helix/users";
+  private followedUrl = "https://api.twitch.tv/helix/channels/followed";
 
   private axios: AxiosInstance;
 
@@ -45,5 +46,36 @@ export default class TwitchUserApiService implements ITwitchUserApiService {
     }
 
     return result;
+  }
+
+  public async getAllFollowedChannels(): Promise<Array<FollowedBroadcaster>> {
+    const user = await this.getCurrentUserInfos();
+
+    const followedBroadcasters: Array<FollowedBroadcaster> = [];
+
+    if (user) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let result: any | null = null;
+      do {
+        let currentCursor = null;
+        if (result && result.data.pagination && result.data.pagination.cursor) {
+          currentCursor = result.data.pagination.cursor;
+        }
+
+        result = await this.axios.get(
+          `${this.followedUrl}?user_id=${user.id}${
+            currentCursor !== null ? "&after=" + currentCursor : ""
+          }`
+        );
+
+        followedBroadcasters.push(...result.data.data);
+      } while (
+        result &&
+        result.data.pagination &&
+        result.data.pagination.cursor
+      );
+    }
+
+    return followedBroadcasters;
   }
 }
