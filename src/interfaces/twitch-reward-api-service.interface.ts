@@ -1,4 +1,4 @@
-import { TwitchReward } from '../models';
+import { TwitchReward } from "../models";
 
 export interface ITwitchRewardApiService {
   createReward(requestData: {
@@ -18,6 +18,10 @@ export interface ITwitchRewardApiService {
   updateRewardCost(requestData: {
     rewardId: string;
     cost: number;
+  }): Promise<TwitchReward | null>;
+  updateRewardName(requestData: {
+    rewardId: string;
+    name: string;
   }): Promise<TwitchReward | null>;
   updateRewardDescription(requestData: {
     rewardId: string;

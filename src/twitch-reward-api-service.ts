@@ -1,12 +1,12 @@
-import { AxiosInstance } from 'axios';
+import { AxiosInstance } from "axios";
 
-import { ITwitchRewardApiService } from './interfaces/twitch-reward-api-service.interface';
-import { TwitchReward } from './models';
-import { TwitchApiService } from './twitch-api-service';
+import { ITwitchRewardApiService } from "./interfaces/twitch-reward-api-service.interface";
+import { TwitchReward } from "./models";
+import { TwitchApiService } from "./twitch-api-service";
 
 export default class TwitchRewardApiService implements ITwitchRewardApiService {
   private serviceUrl =
-    'https://api.twitch.tv/helix/channel_points/custom_rewards';
+    "https://api.twitch.tv/helix/channel_points/custom_rewards";
 
   private axios: AxiosInstance;
   private twitchApiService: TwitchApiService;
@@ -32,7 +32,7 @@ export default class TwitchRewardApiService implements ITwitchRewardApiService {
         {
           title: requestData.title,
           cost: requestData.cost,
-          prompt: requestData.prompt ? requestData.prompt : '',
+          prompt: requestData.prompt ? requestData.prompt : "",
           is_user_input_required: requestData.is_user_input_required
             ? requestData.is_user_input_required
             : false,
@@ -118,6 +118,26 @@ export default class TwitchRewardApiService implements ITwitchRewardApiService {
         `${this.serviceUrl}?broadcaster_id=${broadcasterUser.id}&id=${requestData.rewardId}`,
         {
           prompt: requestData.description,
+        }
+      );
+
+      return result.data.data[0];
+    }
+    return null;
+  }
+
+  public async updateRewardName(requestData: {
+    rewardId: string;
+    name: string;
+  }): Promise<TwitchReward | null> {
+    const broadcasterUser =
+      await this.twitchApiService.users.getCurrentUserInfos();
+
+    if (broadcasterUser) {
+      const result = await this.axios.patch(
+        `${this.serviceUrl}?broadcaster_id=${broadcasterUser.id}&id=${requestData.rewardId}`,
+        {
+          title: requestData.name,
         }
       );
 
