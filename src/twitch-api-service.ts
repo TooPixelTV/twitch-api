@@ -64,7 +64,10 @@ export class TwitchApiService implements ITwitchApiService {
       const newConfig = await this.getRequestConfig();
 
       if (newConfig !== undefined) {
-        config.headers = newConfig.headers as AxiosRequestHeaders;
+        config.headers = {
+          ...(config.headers || {}),
+          ...(newConfig.headers || {}),
+        } as AxiosRequestHeaders;
       }
 
       return config;
