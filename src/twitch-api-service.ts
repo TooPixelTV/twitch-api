@@ -58,7 +58,11 @@ export class TwitchApiService implements ITwitchApiService {
     this.getTokens = getTokens;
     this.refreshTokenCallback = refreshTokenCallback;
 
-    this.axios = axios.create();
+    this.axios = axios.create({
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     this.axios.interceptors.request.use(async (config) => {
       const newConfig = await this.getRequestConfig();
