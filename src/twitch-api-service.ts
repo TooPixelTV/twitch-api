@@ -140,7 +140,11 @@ export class TwitchApiService implements ITwitchApiService {
 
       try {
         const result: AccessTokenBean = (
-          await this.axios.post(this.twitchTokenUrl, params.toString())
+          await this.axios.post(this.twitchTokenUrl, params.toString(), {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded", // override local
+            },
+          })
         ).data;
 
         if (this.refreshTokenCallback !== null) {
