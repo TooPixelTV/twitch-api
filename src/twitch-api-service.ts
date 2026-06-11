@@ -182,11 +182,10 @@ export class TwitchApiService implements ITwitchApiService {
   public async revokeToken(): Promise<void> {
     const tokens = await this.getTokens();
 
-    const simpleAxios = axios.create({
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    console.log(tokens);
+    console.log(this.twitchClientId);
+
+    const simpleAxios = axios.create();
 
     return simpleAxios.post("https://id.twitch.tv/oauth2/revoke", {
       client_id: this.twitchClientId,
