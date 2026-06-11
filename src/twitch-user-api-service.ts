@@ -33,7 +33,7 @@ export default class TwitchUserApiService implements ITwitchUserApiService {
     userLogin: string;
   }): Promise<TwitchUser | null> {
     const result = await this.axios.get(
-      this.serviceUrl + `?id=${requestData.userLogin}`
+      this.serviceUrl + `?login=${requestData.userLogin}`
     );
 
     return result.data.data.length > 0 ? result.data.data[0] : null;
