@@ -179,10 +179,12 @@ export class TwitchApiService implements ITwitchApiService {
     };
   }
 
-  public revokeToken(): Promise<void> {
+  public async revokeToken(): Promise<void> {
+    const tokens = await this.getTokens();
+
     return axios.post("https://id.twitch.tv/oauth2/revoke", {
       client_id: this.twitchClientId,
-      token: this.getTokens().then((tokens) => tokens.accessToken),
+      token: tokens.accessToken,
     });
   }
 }
