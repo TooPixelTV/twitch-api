@@ -187,9 +187,17 @@ export class TwitchApiService implements ITwitchApiService {
 
     const simpleAxios = axios.create();
 
-    return simpleAxios.post("https://id.twitch.tv/oauth2/revoke", {
-      client_id: this.twitchClientId,
-      token: tokens.accessToken,
-    });
+    return simpleAxios.post(
+      "https://id.twitch.tv/oauth2/revoke",
+      new URLSearchParams({
+        client_id: this.twitchClientId,
+        token: tokens.accessToken,
+      }),
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      },
+    );
   }
 }
