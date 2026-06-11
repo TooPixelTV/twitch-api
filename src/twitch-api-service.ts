@@ -51,7 +51,7 @@ export class TwitchApiService implements ITwitchApiService {
     getTokens: () => Promise<UpdateTokenBean>,
     refreshTokenCallback:
       | ((newToken: AccessTokenBean | null) => Promise<void>)
-      | null = null
+      | null = null,
   ) {
     this.twitchClientId = twitchClientId;
     this.twitchSecret = twitchSecret;
@@ -92,7 +92,7 @@ export class TwitchApiService implements ITwitchApiService {
         retryCount: number,
         error: AxiosError,
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        requestConfig: AxiosRequestConfig
+        requestConfig: AxiosRequestConfig,
       ) => {
         if (error.status === 401) {
           await this.sendRefreshToken();
@@ -104,7 +104,7 @@ export class TwitchApiService implements ITwitchApiService {
     this.rewards = new TwitchRewardApiService(this.axios, this);
     this.rewardRedemptions = new TwitchRewardRedemptionApiService(
       this.axios,
-      this
+      this,
     );
     this.users = new TwitchUserApiService(this.axios);
     this.channel = new TwitchChannelApiService(this.axios, this);
@@ -116,7 +116,7 @@ export class TwitchApiService implements ITwitchApiService {
   }
 
   public static async getTokenScopes(
-    accessToken: string
+    accessToken: string,
   ): Promise<Array<string>> {
     const result = await axios.get("https://id.twitch.tv/oauth2/validate", {
       headers: {
@@ -177,5 +177,12 @@ export class TwitchApiService implements ITwitchApiService {
         "Client-Id": this.twitchClientId,
       },
     };
+  }
+
+  public revokeToken(): Promise<void> {
+    return axios.post("https://id.twitch.tv/oauth2/revoke", {
+      client_id: this.twitchClientId,
+      token: this.getTokens().then((tokens) => tokens.accessToken),
+    });
   }
 }
