@@ -7,5 +7,8 @@ export interface ITwitchUserApiService {
   getMultipleUserInfos(requestData: {
     userIds: Array<string>;
   }): Promise<Array<TwitchUser>>;
+  getMultipleUserInfosByLogins(requestData: {
+    userLogins: Array<string>;
+  }): Promise<Array<TwitchUser>>;
   getAllFollowedChannels(): Promise<Array<FollowedBroadcaster>>;
 }

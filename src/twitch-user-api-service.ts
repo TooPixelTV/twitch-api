@@ -58,6 +58,25 @@ export default class TwitchUserApiService implements ITwitchUserApiService {
     return result;
   }
 
+  public async getMultipleUserInfosByLogins(requestData: {
+    userLogins: Array<string>;
+  }): Promise<Array<TwitchUser>> {
+    const result: Array<TwitchUser> = [];
+
+    while (requestData.userLogins.length > 0) {
+      const usersList: Array<string> = requestData.userLogins.splice(0, 100);
+      const usersUrl = usersList.map((u) => `login=${u}`).join("&");
+
+      const callResult = await this.axios.get(this.serviceUrl + `?${usersUrl}`);
+
+      if (callResult.data && callResult.data.data) {
+        result.push(...callResult.data.data);
+      }
+    }
+
+    return result;
+  }
+
   public async getAllFollowedChannels(): Promise<Array<FollowedBroadcaster>> {
     const user = await this.getCurrentUserInfos();
 
