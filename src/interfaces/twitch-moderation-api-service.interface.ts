@@ -1,4 +1,4 @@
-import { ModeratorsResultBean, TwitchSimpleUser } from "../models";
+import { UsersResultBean, TwitchSimpleUser } from "../models";
 
 export interface ITwitchModerationApiService {
   getAllModerators(requestData: {
@@ -12,5 +12,5 @@ export interface ITwitchModerationApiService {
     user_id?: string;
     first?: string;
     after?: string;
-  }): Promise<ModeratorsResultBean | null>;
+  }): Promise<UsersResultBean | null>;
 }

@@ -1,7 +1,7 @@
 import { AxiosInstance } from "axios";
 
 import { ITwitchModerationApiService } from "./interfaces/twitch-moderation-api-service.interface";
-import { ModeratorsResultBean, TwitchSimpleUser } from "./models";
+import { UsersResultBean, TwitchSimpleUser } from "./models";
 
 export default class TwitchModerationApiService
   implements ITwitchModerationApiService
@@ -22,7 +22,7 @@ export default class TwitchModerationApiService
   }): Promise<Array<TwitchSimpleUser>> {
     const moderators: Array<TwitchSimpleUser> = [];
 
-    let result: ModeratorsResultBean | null = null;
+    let result: UsersResultBean | null = null;
     do {
       if (result && result.pagination && result.pagination.cursor) {
         requestData.after = result.pagination.cursor;
@@ -43,7 +43,7 @@ export default class TwitchModerationApiService
     user_ids?: Array<string>;
     first?: string;
     after?: string;
-  }): Promise<ModeratorsResultBean | null> {
+  }): Promise<UsersResultBean | null> {
     const params: Array<string> = [];
 
     params.push(`broadcaster_id=${filter.broadcaster_id}`);

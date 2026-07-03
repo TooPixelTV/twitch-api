@@ -16,7 +16,7 @@ export * from "./twitch-chatter.model";
 export * from "./update-token-bean.model";
 export * from "./sent-message-bean.model";
 export * from "./twitch-chat-message-eventsub.model";
-export * from "./moderators-result-bean.model";
+export * from "./users-result-bean.model";
 export * from "./twitch-user-subscription.model";
 export * from "./twitch-stream-online-eventsub.model";
 export * from "./twitch-stream-offline-eventsub.model";
