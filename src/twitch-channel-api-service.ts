@@ -1,13 +1,11 @@
 import { AxiosInstance } from "axios";
 
 import { ITwitchChannelApiService } from "./interfaces/twitch-channel-api-service.interface";
+import { TwitchSimpleUser, UsersResultBean } from "./models";
 import { FollowerBean } from "./models/follower-bean.model";
 import { TwitchApiService } from "./twitch-api-service";
-import { UsersResultBean, TwitchSimpleUser } from "./models";
 
-export default class TwitchChannelApiService
-  implements ITwitchChannelApiService
-{
+export default class TwitchChannelApiService implements ITwitchChannelApiService {
   private streamsUrl = "https://api.twitch.tv/helix/streams";
   private followersUrl = "https://api.twitch.tv/helix/channels/followers";
   private vipsUrl = "https://api.twitch.tv/helix/channels/vips";
@@ -22,12 +20,16 @@ export default class TwitchChannelApiService
 
   async isLive(requestData: { channel: string }): Promise<boolean> {
     const result = await this.axios.get(
-      `${this.streamsUrl}?user_login=${requestData.channel}`
+      `${this.streamsUrl}?user_login=${requestData.channel}`,
     );
     return result.data.data.length > 0;
   }
 
-  async getAllFollowers(): Promise<Array<FollowerBean>> {
+  async getAllFollowers(
+    requestData: {
+      first: number;
+    } = { first: 20 },
+  ): Promise<Array<FollowerBean>> {
     const broadcasterUser =
       await this.twitchApiService.users.getCurrentUserInfos();
 
@@ -44,8 +46,10 @@ export default class TwitchChannelApiService
 
         result = await this.axios.get(
           `${this.followersUrl}?broadcaster_id=${broadcasterUser.id}${
-            currentCursor !== null ? "&after=" + currentCursor : ""
-          }`
+            currentCursor !== null
+              ? "&first=" + requestData.first + "&after=" + currentCursor
+              : ""
+          }`,
         );
 
         followers.push(...result.data.data);
@@ -58,7 +62,7 @@ export default class TwitchChannelApiService
 
     return followers;
   }
-  
+
   public async getAllVips(requestData: {
     broadcaster_id: string;
     user_id?: string;

@@ -1,9 +1,10 @@
-import { TwitchSimpleUser, UsersResultBean } from 'src/models';
-import { FollowerBean } from '../models/follower-bean.model';
+import { TwitchSimpleUser, UsersResultBean } from "src/models";
+
+import { FollowerBean } from "../models/follower-bean.model";
 
 export interface ITwitchChannelApiService {
   isLive(requestData: { channel: string }): Promise<boolean>;
-  getAllFollowers(): Promise<Array<FollowerBean>>;
+  getAllFollowers(requestData: { first: number }): Promise<Array<FollowerBean>>;
   getAllVips(requestData: {
     broadcaster_id: string;
     user_id?: string;
