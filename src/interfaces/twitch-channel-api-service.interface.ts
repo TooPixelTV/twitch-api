@@ -4,7 +4,7 @@ import { FollowerBean } from "../models/follower-bean.model";
 
 export interface ITwitchChannelApiService {
   isLive(requestData: { channel: string }): Promise<boolean>;
-  getAllFollowers(requestData: { first: number }): Promise<Array<FollowerBean>>;
+  getAllFollowers(): Promise<Array<FollowerBean>>;
   getAllVips(requestData: {
     broadcaster_id: string;
     user_id?: string;

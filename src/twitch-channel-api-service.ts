@@ -25,11 +25,7 @@ export default class TwitchChannelApiService implements ITwitchChannelApiService
     return result.data.data.length > 0;
   }
 
-  async getAllFollowers(
-    requestData: {
-      first: number;
-    } = { first: 20 },
-  ): Promise<Array<FollowerBean>> {
+  async getAllFollowers(): Promise<Array<FollowerBean>> {
     const broadcasterUser =
       await this.twitchApiService.users.getCurrentUserInfos();
 
@@ -46,9 +42,7 @@ export default class TwitchChannelApiService implements ITwitchChannelApiService
 
         result = await this.axios.get(
           `${this.followersUrl}?broadcaster_id=${broadcasterUser.id}${
-            currentCursor !== null
-              ? "&first=" + requestData.first + "&after=" + currentCursor
-              : ""
+            currentCursor !== null ? "&first=100&after=" + currentCursor : ""
           }`,
         );
 
