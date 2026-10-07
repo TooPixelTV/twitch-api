@@ -3,6 +3,7 @@ import { AxiosInstance } from "axios";
 import { ITwitchModerationApiService } from "./interfaces/twitch-moderation-api-service.interface";
 import {
   BannedUsersResultBean,
+  TwitchBannedUserBean,
   TwitchSimpleUser,
   UsersResultBean,
 } from "./models";
@@ -82,6 +83,30 @@ export default class TwitchModerationApiService implements ITwitchModerationApiS
     }
 
     return null;
+  }
+
+  public async getAllBannedUsers(requestData: {
+    broadcaster_id: string;
+    user_id?: string;
+    first?: string;
+    after?: string;
+  }): Promise<Array<TwitchBannedUserBean>> {
+    const bannedUsers: Array<TwitchBannedUserBean> = [];
+
+    let result: BannedUsersResultBean | null = null;
+    do {
+      if (result && result.pagination && result.pagination.cursor) {
+        requestData.after = result.pagination.cursor;
+      }
+
+      result = await this.getBannedUsers(requestData);
+
+      if (result && result.data) {
+        bannedUsers.push(...result.data);
+      }
+    } while (result && result.pagination && result.pagination.cursor);
+
+    return bannedUsers;
   }
 
   public async getBannedUsers(filter: {
