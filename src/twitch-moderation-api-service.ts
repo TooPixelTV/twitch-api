@@ -1,12 +1,16 @@
 import { AxiosInstance } from "axios";
 
 import { ITwitchModerationApiService } from "./interfaces/twitch-moderation-api-service.interface";
-import { UsersResultBean, TwitchSimpleUser } from "./models";
+import {
+  BannedUsersResultBean,
+  TwitchSimpleUser,
+  UsersResultBean,
+} from "./models";
 
-export default class TwitchModerationApiService
-  implements ITwitchModerationApiService
-{
+export default class TwitchModerationApiService implements ITwitchModerationApiService {
   private serviceUrl = "https://api.twitch.tv/helix/moderation/moderators";
+  private bannedUsersServiceUrl =
+    "https://api.twitch.tv/helix/moderation/banned";
 
   private axios: AxiosInstance;
 
@@ -70,6 +74,48 @@ export default class TwitchModerationApiService
       .get(`${this.serviceUrl}${paramsUrl}`)
       .catch((e) => {
         console.error("Error at : getModerators");
+        console.error(e);
+      });
+
+    if (result && result.data) {
+      return result.data;
+    }
+
+    return null;
+  }
+
+  public async getBannedUsers(filter: {
+    broadcaster_id: string;
+    user_ids?: Array<string>;
+    first?: string;
+    after?: string;
+  }): Promise<BannedUsersResultBean | null> {
+    const params: Array<string> = [];
+
+    params.push(`broadcaster_id=${filter.broadcaster_id}`);
+
+    if (filter.first) {
+      params.push(`first=${filter.first}`);
+    }
+
+    if (filter.user_ids) {
+      filter.user_ids.forEach((user_id) => {
+        params.push(`user_id=${user_id}`);
+      });
+    }
+
+    if (filter.after) {
+      params.push(`after=${filter.after}`);
+    }
+
+    let paramsUrl = "";
+    if (params.length > 0) {
+      paramsUrl += `?${params.join("&")}`;
+    }
+    const result = await this.axios
+      .get(`${this.bannedUsersServiceUrl}${paramsUrl}`)
+      .catch((e) => {
+        console.error("Error at : getBannedUsers");
         console.error(e);
       });
 

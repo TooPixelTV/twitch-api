@@ -23,3 +23,5 @@ export * from "./twitch-stream-offline-eventsub.model";
 export * from "./twitch-whisper-message-eventsub.model";
 export * from "./twitch-ban-result.model";
 export * from "./followed-broadcaster.model";
+export * from "./twitch-banned-user-bean.model";
+export * from "./banned-users-result-bean.model";
