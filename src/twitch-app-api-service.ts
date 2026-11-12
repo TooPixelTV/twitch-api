@@ -8,6 +8,7 @@ import axiosRetry from "axios-retry";
 
 import TwitchConduitsApiService from "./twitch-conduits-api-service";
 import TwitchEventsubApiService from "./twitch-eventsub-service";
+import TwitchStreamsApiService from "./twitch-streams-api-service";
 import TwitchUserApiService from "./twitch-user-api-service";
 
 export class TwitchAppApiService {
@@ -23,6 +24,7 @@ export class TwitchAppApiService {
   // Services
   public conduits: TwitchConduitsApiService;
   public eventsub: TwitchEventsubApiService;
+  public streams: TwitchStreamsApiService;
   public users: TwitchUserApiService;
 
   constructor(twitchClientId: string, twitchSecret: string) {
@@ -67,6 +69,7 @@ export class TwitchAppApiService {
     // Init services
     this.conduits = new TwitchConduitsApiService(this.axios);
     this.eventsub = new TwitchEventsubApiService(this.axios);
+    this.streams = new TwitchStreamsApiService(this.axios);
     this.users = new TwitchUserApiService(this.axios);
   }
 
